@@ -1,0 +1,3 @@
+﻿  agglomerative.cpp
+C:\Users\20106\source\repos\agglomerative\agglomerative\agglomerative.cpp(214): warning C4715: 'ClusteringOps': not all control paths return a value
+  agglomerative.vcxproj -> C:\Users\20106\source\repos\agglomerative\x64\Debug\agglomerative.exe
