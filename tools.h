@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 #define _2DVector std::vector<std::vector<double>> 
 #define _1DVector std::vector<double>
@@ -63,11 +64,12 @@ template<typename Any> void testVector(std::vector<Any> v) {
 
 }
 template <typename Any> void testMultiVector(std::vector<std::vector<Any>> v) {
+	std::cout << std::internal;
 	for (int i = 0; i < v.size(); i++) {
 		for (auto k = v[i].begin(); k != v[i].end(); k++) {
-			std::cout << *k << "     ";
+			std::cout<<std::fixed<<std::setprecision(3)<< * k<<"    ";
 		}
-		std::cout << std::endl;
+		std::cout<<std::endl<<std::endl;
 	}
 }
 template <typename Any> void Initiate_2DVector(_2DVector& v, int size) {
@@ -87,7 +89,7 @@ void line(std::string s) {
 }
 void testLabels(strVec labels) {
 	for (int i = 0; i < labels.size(); i++) {
-		std::cout << "cluster(" << i + 1 << "): {" << labels[i] << "}" << std::endl;
+		std::cout << "cluster(" << i + 1 << "): " << labels[i] << "" << std::endl;
 	}
 }
 

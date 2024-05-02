@@ -1,8 +1,6 @@
 #include <iostream>
 #include <math.h>
-#include <string.h>
 #include <string>
-#include <limits>
 #include <unordered_map>
 #include <vector>
 #include "tools.h"
@@ -33,13 +31,12 @@ double Euclidean(_1DVector p1, _1DVector p2) {
 _2DVector distanceMatrix(_2DVector data) {
 	_2DVector DistanceMatrix;
 	Initiate_2DVector<double>(DistanceMatrix, data.size());
-	std::cout << "Distance : " << std::endl;
-	int c = 0; 
+	std::cout << "Distance : " << std::endl; 
 	for (int i = 0; i < data.size(); i++) {
 		_1DVector p1 = data[i]; 
 		for (int j = i; j < data.size(); j++) {
 			_1DVector p2 = data[j];
-			std::cout << "d(" << i + 1 << "," << j + 1 << "): " << Euclidean(p1, p2) << std::endl;
+			std::cout <<std::setprecision(3)<<"d(" << i + 1 << "," << j + 1 << "): " << Euclidean(p1, p2) << std::endl;
 			DistanceMatrix[i][j] = Euclidean(p1, p2);
 			DistanceMatrix[j][i] = Euclidean(p1, p2);
 		}
@@ -60,7 +57,7 @@ iPair indexOfMiniValue(_2DVector DM) {
 		}
 	}
 	line("_ _");
-	std::cout << "minimum value = " << min << " {" << index.first +1 << ", " << index.second+1 << "}";	return index;
+	std::cout << "minimum value = " << min << " , at  {" << index.first + 1 << ", " << index.second + 1 << "}";	return index;
 }
 
 map targetedRows(iPair index, _2DVector DM) {
@@ -70,7 +67,7 @@ map targetedRows(iPair index, _2DVector DM) {
 	return elements;
 }
 
-_1DVector clustering(iPair index, _2DVector DM) {//index[0] => Host , index[1] => Guest
+_1DVector clustering(iPair index, _2DVector DM) {//index.first => Host , index.second => Guest
  	map elements = targetedRows(index, DM);
 	_1DVector row1 = elements["row1"]; row1.erase(row1.begin() + index.second);
 	_1DVector row2 = elements["row2"]; row2.erase(row2.begin() + index.second);
@@ -78,7 +75,7 @@ _1DVector clustering(iPair index, _2DVector DM) {//index[0] => Host , index[1] =
 	for (int i = 0; i < row1.size(); i++) {
 		cluster.push_back(std::min(row1[i], row2[i]));
 	}
-	labels[index.first] = labels[index.first] + ", " + labels[index.second];
+	labels[index.first] = "{"+labels[index.first] + ", " + labels[index.second]+"}";
 	labels.erase(labels.begin() + index.second);
 	return cluster;
 }
@@ -105,9 +102,9 @@ void insertCluster(_2DVector& DM, _1DVector cluster ,int HostElement ) {
 	}
 }
 
-_2DVector Agglomerative(_2DVector & DM) {
+void Agglomerative(_2DVector & DM) {
 	line("=+=");
-	std::cout <<"                       steps(" << ++steps<<")";
+	std::cout<<std::setw(50)<<"steps(" << ++steps<<")";
 	line("=+=");
 	std::cout << "Current Clusters : ";
 	line("---");
@@ -121,8 +118,7 @@ _2DVector Agglomerative(_2DVector & DM) {
 	line("=*=");
 	testMultiVector<double>(DM);
 	line("-_-");
-	if (DM.size() == 1) return DM;
-	 return Agglomerative(DM);
+	if (DM.size() != 1) Agglomerative(DM);
 }
 
 int main(int argc, char** argv) {
@@ -131,6 +127,7 @@ int main(int argc, char** argv) {
 	_2DVector DM = distanceMatrix(data);
 	line("=o=");
 	std::cout << "Distance Matrix : " << std::endl;
+	line("--");
 	testMultiVector<double>(DM);
 	line("-_-");
 	Agglomerative(DM);
