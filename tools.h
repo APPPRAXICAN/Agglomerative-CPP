@@ -4,6 +4,8 @@
 #define _1DVector std::vector<double>
 #define map std::unordered_map<std::string, _1DVector>
 #define dic std::unordered_map <int, std::string>
+#define strVec std::vector<std::string>
+#define iPair std::pair<int, int> 
 
 enum Mode {
 	dev = 0,
@@ -82,6 +84,11 @@ void line(std::string s) {
 		s += s;
 	}
 	std::cout << "\n" + s << std::endl;
+}
+void testLabels(strVec labels) {
+	for (int i = 0; i < labels.size(); i++) {
+		std::cout << "cluster(" << i + 1 << "): {" << labels[i] << "}" << std::endl;
+	}
 }
 
 
